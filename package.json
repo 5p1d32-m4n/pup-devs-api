@@ -1,0 +1,18 @@
+{
+  "name": "pup-devs-api",
+  "version": "1.0.0",
+  "description": "Brandon J. Baker unified portfolio API for projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Brandon J. Baker",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "eslint": "^8.38.0",
+    "jest": "^29.5.0"
+  }
+}
