@@ -3,16 +3,20 @@ const mongoose = require('mongoose')
 const app = express()
 require('dotenv').config()
 
-const productsRouter = require('./routes/products')
+const productsRouter = require('./routes/productsRouter')
 
 app.use(express.json())
 
-app.use('/', (req, res) => {
-    res.json({ msg: 'Welcom to the PupDev API!' })
-})
+
 
 // Mount the products router at /products
 app.use('/products', productsRouter)
+
+
+// Default welcome route
+app.use('/', (req, res) => {
+    res.json({ msg: 'Welcom to the PupDev API!' })
+})
 
 // Connection to the DB
 console.log(process.env.DB_URI)
