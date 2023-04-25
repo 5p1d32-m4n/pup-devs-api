@@ -1,5 +1,6 @@
 const { faker } = require('@faker-js/faker')
 const Product = require('../models/product')
+const mongoose = require('mongoose')
 
 
 const createProduct = async (req, res) => {
@@ -14,14 +15,66 @@ const createProduct = async (req, res) => {
 const getProduct = async (req, res) => {
     const { id } = req.params
     try {
-
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'No such product was found' })
+        }
+        const product = await Product.findById(id)
+        if (!product) {
+            return res.status(404).json({ error: 'No such product' })
+        }
+        res.status(200).json(product)
     } catch (error) {
 
     }
 }
-const getAllProducts = async (req, res) => { }
-const updateProduct = async (req, res) => { }
-const deleteProduct = async (req, res) => { }
+
+
+const getAllProducts = async (req, res) => {
+    try {
+        const products = await Product.find({}).sort({ createdAt: -1 });
+        res.json(products)
+    }
+    catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+}
+
+const deleteProduct = async (req, res) => {
+    const { id } = req.params
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'No such product was found' })
+        }
+        const product = await Product.findOneAndDelete({ _id: id })
+
+        if (!product) {
+            return res.status(400).json({ error: 'No such product' })
+        }
+        res.status(200).json(product)
+    } catch (error) {
+
+    }
+}
+
+const updateProduct = async (req, res) => {
+    const { id } = req.params
+    try {
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(404).json({ error: 'No such product was found' })
+        }
+        const product = await Product.findOneAndUpdate({ _id: id }, {
+            ...req.body
+        })
+        if (!product) {
+            return res.status(400).json({ error: 'No such product' })
+        }
+        res.status(200).json(product)
+    } catch (error) {
+
+    }
+}
+
+
 const generateDummyProducts = async (req, res) => {
     console.log('running dummy generator')
     try {
@@ -51,5 +104,9 @@ const generateDummyProducts = async (req, res) => {
 
 module.exports = {
     createProduct,
-    generateDummyProducts
+    generateDummyProducts,
+    getAllProducts,
+    deleteProduct,
+    updateProduct,
+    getProduct
 }
