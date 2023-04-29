@@ -7,6 +7,7 @@ const createProduct = async (req, res) => {
     const { name, description, price, category, image, rating } = req.body
     try {
         const product = await Product.create({ name, description, price, category, image, rating })
+        res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
         res.status(400).json({ error: error.message })
@@ -22,6 +23,7 @@ const getProduct = async (req, res) => {
         if (!product) {
             return res.status(404).json({ error: 'No such product' })
         }
+        res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
 
@@ -50,6 +52,7 @@ const deleteProduct = async (req, res) => {
         if (!product) {
             return res.status(400).json({ error: 'No such product' })
         }
+        res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
 
@@ -68,6 +71,7 @@ const updateProduct = async (req, res) => {
         if (!product) {
             return res.status(400).json({ error: 'No such product' })
         }
+        res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
 
@@ -96,6 +100,7 @@ const generateDummyProducts = async (req, res) => {
             console.log(`Inserted ${product.name} into the database`)
         }
         // Insert the dummy products into the database
+        res.set('Content-Type', 'application/json')
         res.status(200).json({ message: 'Dummy products generated' })
     } catch (err) {
         res.status(400).json({ message: err.message })
