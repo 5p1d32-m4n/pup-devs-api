@@ -1,11 +1,13 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const app = express()
+const cors = require('cors')
 require('dotenv').config()
 
 const productsRouter = require('./routes/productsRouter')
 
 app.use(express.json())
+app.use(cors({origin: '*'}))
 app.use((req, res, next) => {
     res.setHeader('Content-Type', 'application/json')
     next()

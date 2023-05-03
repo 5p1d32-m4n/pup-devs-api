@@ -13,6 +13,8 @@ const createProduct = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
+
+
 const getProduct = async (req, res) => {
     const { id } = req.params
     try {
@@ -91,7 +93,7 @@ const generateDummyProducts = async (req, res) => {
                 description: faker.commerce.productDescription(),
                 price: faker.commerce.price(),
                 category: faker.commerce.department(),
-                image: faker.image.imageUrl(),
+                image: faker.image.abstract(width = 640, height = 480, randomize = true),
                 rating: Math.ceil(Math.random() * 5),
             })
             console.log(product)
