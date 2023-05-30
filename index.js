@@ -7,7 +7,7 @@ require('dotenv').config()
 const productsRouter = require('./routes/productsRouter')
 
 app.use(express.json())
-app.use(cors({origin: '*'}))
+app.use(cors({ origin: '*' }))
 app.use((req, res, next) => {
     res.setHeader('Content-Type', 'application/json')
     next()
