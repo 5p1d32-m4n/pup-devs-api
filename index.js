@@ -3,6 +3,9 @@ const mongoose = require('mongoose')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
+const connectToDB = require('./config/db')
+const Product = require('./models/product')
+const Department = require('./models/department')
 
 const productsRouter = require('./routes/productsRouter')
 
@@ -25,6 +28,8 @@ app.use('/', (req, res) => {
 })
 
 // Connection to the DB
+const productConnection = connectToDB(process.env.PRODUCT_URI)
+const departmentConnection = connectToDB(process.env.DEPARTMENT_URI)
 console.log(process.env.DB_URI)
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
