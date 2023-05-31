@@ -7,7 +7,7 @@ require('dotenv').config()
 const productsRouter = require('./routes/productsRouter')
 
 app.use(express.json())
-app.use(cors({origin: '*'}))
+app.use(cors({ origin: '*' }))
 app.use((req, res, next) => {
     res.setHeader('Content-Type', 'application/json')
     next()
@@ -26,6 +26,8 @@ app.use('/', (req, res) => {
 
 // Connection to the DB
 console.log(process.env.DB_URI)
+const productDB = mongoose.createConnection(process.env.PRODUCT_URI)
+const departmentDB = mongoose.createConnection(process.env.DEPARTMENT_URI)
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         app.listen(process.env.PORT, () => {
