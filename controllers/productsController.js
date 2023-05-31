@@ -90,7 +90,7 @@ const generateDummyProducts = async (req, res) => {
                 description: faker.commerce.productDescription(),
                 price: faker.commerce.price(),
                 category: faker.commerce.department(),
-                image: faker.image.abstract(width = 640, height = 480, randomize = true),
+                image: faker.image.abstract(width = 210, height = 235, randomize = true),
                 rating: Math.ceil(Math.random() * 5),
             })
             console.log(product)
