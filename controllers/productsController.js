@@ -28,7 +28,7 @@ const getProduct = async (req, res) => {
         res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
-
+        res.status(400).json({ error: error.message })
     }
 }
 
@@ -39,7 +39,7 @@ const getAllProducts = async (req, res) => {
         res.json(products)
     }
     catch (err) {
-        res.status(500).json({ message: err.message })
+        res.status(400).json({ message: err.message })
     }
 }
 
@@ -57,7 +57,7 @@ const deleteProduct = async (req, res) => {
         res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
-
+        res.status(400).json({ message: error.message })
     }
 }
 
@@ -76,17 +76,14 @@ const updateProduct = async (req, res) => {
         res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
-
+        res.status(400).json({ message: error.message })
     }
 }
 
 
 const generateDummyProducts = async (req, res) => {
-    console.log('running dummy generator')
+    console.log('Generating dummy records...')
     try {
-        // Generating 10 dummy products using FakerJS
-        console.log('Generating dummy records...')
-        const dummies = []
         for (let i = 0; i < 10; i++) {
             const product = new Product({
                 name: faker.commerce.productName(),
@@ -97,7 +94,6 @@ const generateDummyProducts = async (req, res) => {
                 rating: Math.ceil(Math.random() * 5),
             })
             console.log(product)
-            dummies.push(product)
             await Product.create(product)
             console.log(`Inserted ${product.name} into the database`)
         }
