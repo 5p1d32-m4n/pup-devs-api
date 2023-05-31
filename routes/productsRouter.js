@@ -3,20 +3,30 @@ const router = express.Router()
 const Product = require('../models/product')
 const { generateDummyProducts, createProduct, getProduct, getAllProducts, deleteProduct, updateProduct } = require('../controllers/productsController')
 
-// GET products
+/* 
+GET products
+*/
 router.get('/', getAllProducts)
 router.get('/:id', getProduct)
 
-// POST products
+/* 
+POST products
+*/
 router.post('/create-product', createProduct)
 
-// UPDATE products
+/* 
+UPDATE products
+*/
 router.patch('/:id', updateProduct)
 
-// DELETE 
+/* 
+DELETE
+*/
 router.delete('/:id', deleteProduct)
 
-// TEST population
+/* 
+TEST population
+*/
 router.post('/generate-dummy-products', generateDummyProducts)
 
 module.exports = router

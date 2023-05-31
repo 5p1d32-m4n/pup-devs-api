@@ -1,12 +1,12 @@
 const { faker } = require('@faker-js/faker')
 const Product = require('../models/product')
 const mongoose = require('mongoose')
-
+const { PRODUCT_DB } = require('../config/db')
 
 const createProduct = async (req, res) => {
     const { name, description, price, category, image, rating } = req.body
     try {
-        const product = await Product.create({ name, description, price, category, image, rating })
+        const product = await PRODUCT_DB.collection('products').insertOne({ name, description, price, category, image, rating })
         res.set('Content-Type', 'application/json')
         res.status(200).json(product)
     } catch (error) {
@@ -21,7 +21,7 @@ const getProduct = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ error: 'No such product was found' })
         }
-        const product = await Product.findById(id)
+        const product = await PRODUCT_DB.collection('products').findOne({ _id: id })
         if (!product) {
             return res.status(404).json({ error: 'No such product' })
         }
@@ -35,7 +35,7 @@ const getProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
     try {
-        const products = await Product.find({}).sort({ createdAt: -1 });
+        const products = await PRODUCT_DB.collection('products').find({}).sort({ createdAt: -1 }).toArray()
         res.json(products)
     }
     catch (err) {
@@ -49,7 +49,7 @@ const deleteProduct = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ error: 'No such product was found' })
         }
-        const product = await Product.findOneAndDelete({ _id: id })
+        const product = await PRODUCT_DB.collection('products').findOneAndDelete({ _id: id })
 
         if (!product) {
             return res.status(400).json({ error: 'No such product' })
@@ -67,7 +67,7 @@ const updateProduct = async (req, res) => {
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(404).json({ error: 'No such product was found' })
         }
-        const product = await Product.findOneAndUpdate({ _id: id }, {
+        const product = await PRODUCT_DB.collection('products').findOneAndUpdate({ _id: id }, {
             ...req.body
         })
         if (!product) {
@@ -94,7 +94,7 @@ const generateDummyProducts = async (req, res) => {
                 rating: Math.ceil(Math.random() * 5),
             })
             console.log(product)
-            await Product.create(product)
+            await PRODUCT_DB.collection('products').insertOne(product)
             console.log(`Inserted ${product.name} into the database`)
         }
         // Insert the dummy products into the database
