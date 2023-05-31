@@ -36,8 +36,6 @@ app.use('/', (req, res) => {
  * Connection to the DB
  */
 console.log(process.env.DB_URI)
-const productDB = mongoose.createConnection(process.env.PRODUCT_URI)
-const departmentDB = mongoose.createConnection(process.env.DEPARTMENT_URI)
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
         app.listen(process.env.PORT, () => {
